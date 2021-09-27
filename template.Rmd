@@ -1,0 +1,55 @@
+---
+title: "Simple document"
+output: html_document
+---
+
+I'm an R Markdown document! 
+
+# Section 1
+
+Here's a **code chunk** that samples from 
+a _normal distribution_:
+
+```{r}
+samp = rnorm(100)
+length(samp)
+```
+
+# Section 2
+
+I can take the mean of the sample, too!
+The mean is `r mean(samp)`.
+
+```{r}
+names(litters_df)
+
+litters_df = janitor::clean_names(litters_df)
+
+```
+
+```{r}
+litters_df
+
+head(litters_df)
+```
+
+## Arguments in `read_csv`
+```{r}
+litters_df = 
+  read_csv(
+    "data_import_examples/FAS_litters.csv",
+    skip = 5,
+    col_names = FALSE,
+  )
+```
+
+## Reading fro Excel
+
+```{r}
+mlb11_df = read_excel("data_import_examples/")
+
+```
+
+
+
+
