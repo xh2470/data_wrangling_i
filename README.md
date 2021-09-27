@@ -1,5 +1,5 @@
 # data_wrangling_i
 
-This is the reposity for data wrangling i.
-This is 
+This is the repository for data wrangling i, part of P8105.
+
 
