@@ -1,48 +1,67 @@
 ---
-title: "Untitled"
+title: "Data Manipulation"
 author: "Xueqing Huang"
 date: "2021/9/28"
-output: html_document
+output: github_document
 ---
 
-```{r}
+```{r set up}
 library(tidyverse)
+```
 
+## Load in the  FAS Litter Data
+
+```{r}
 litters_df = read_csv("./data/FAS_litters.csv")
 litters_df = janitor::clean_names(litters_df)
 
 pups_df = read_csv("./data/FAS_pups.csv")
 pups_df = janitor::clean_names(pups_df)
 
-
 ```
 
+## `select` 
 
+Choose some columns and not others.
 
 ```{r }
 select(litters_df, group, litter_number)
+select(litters_df, group, gd0_weight:gd_of_birth)
+select(litters_df, -litter_number)
 ```
+
+Renaming columns
+
+```{r}
+select(litters_df, Group = group, LITTER_NUMBER = litter_number)
+rename(litters_df, Group = group, LITTER_NUMBER = litter_number)
+```
+
+?select_helpers
+
+Select helpers
+
+```{r}
+select(litters_df, starts_with("gd"))
+select(litters_df, litter_number, everything())
+relocate(litters_df, litter_number)
+```
+
 
 ##  `filter`
 
 ```{r}
-filter(litters_df, gd0_of_birth ==20)
+filter(litters_df, gd_of_birth == 20)
 filter(litters_df, group == "Con7")
-
-filter(litters_df, gd0_weight <23)
-
+filter(litters_df, gd0_weight < 23)
 filter(litters_df, pups_survive != 4)
-
 filter(litters_df, !(group == "Con7"))
-
 filter(litters_df, group %in% c("Con7", "Con8"))
-
 filter(litters_df, group == "Con7", gd_of_birth == 20)
-
-filter(litters_df, group == "Con7"| gd_of_birth == 20)
+filter(litters_df, group == "Con7"|gd_of_birth == 20)
 
 drop_na(litters_df)
-drop_na(litters_df, gd0_weght)
+drop_na(litters_df, gd0_weight)
 ```
 
 ## `mutate`
@@ -59,21 +78,23 @@ mutate(
 ## `arrange`
 
 ```{r}
+arrange(litters_df, pups_born_alive)
 arrange(litters_df, desc(gd0_weight))
 arrange(litters_df, gd_of_birth, gd0_weight)
 ```
 
 ## Pipes
+
 ```{r}
 litters_data_raw = read_csv("data/FAS_litters.csv")
 litters_clean_name = janitor::clean_names(litters_data_raw)
-litters_select = select(litters_clean_name, group, pus_sruvive)
+litters_select = select(litters_clean_name, group, pups_survive)
 litters_filtered = filter(litters_select, group == 'Con7')
 
 litters_df = 
   read_csv("data/FAS_litters.csv") %>%
   janitor::clean_names() %>%
-  selecgt(group, pup_survive) %>%
+  select(group, pups_survive) %>% 
   filter(group == "Con7")
 
 litters_df = (
@@ -86,7 +107,7 @@ litters_df = (
   ) %>%
   drop_na(weight_change) %>%
   filter(group %in% c("con7", "con8")) %>%
-  select(litter_number, group, weight_change, )
+  select(litter_number, group, weight_change)
 )
 ```
 
