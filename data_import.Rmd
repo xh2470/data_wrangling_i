@@ -14,14 +14,51 @@ Read in the litters dataset.
 
 ```{r}
 litters_df = read_csv("./data/FAS_litters.csv")
+
+names(litters_df)
+
 litters_df = janitor::clean_names(litters_df)
+
 ```
 
 ## Take a look at the data
+
+Printing in the console.
 
 ```{r}
 litters_df
 ```
 
+```{r}
+head(litters_df)
+```
 
+```{r}
+tail(litters_df)
+```
+
+```{r}
+skimr::skim(litters_df)
+```
+
+# Arguments in read_csv
+
+```{r}
+litters_df1 = 
+  read_csv(
+    "data/FAS_litters.csv",
+    skip = 5, 
+    col_names = FALSE, 
+    na = "Low8")
+
+```
+
+```{r}
+litters_data = read_csv( "./data/FAS_litters.csv",
+    col_types = cols(
+      Group = col_character(),
+      
+    ))
+
+```
 
