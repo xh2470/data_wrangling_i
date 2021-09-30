@@ -5,6 +5,8 @@ output: github_document
 
 ```{r setup}
 library(tidyverse)
+library(readxl)
+library(haven)
 
 ```
 
@@ -57,8 +59,27 @@ litters_df1 =
 litters_data = read_csv( "./data/FAS_litters.csv",
     col_types = cols(
       Group = col_character(),
-      
-    ))
+      'Litter Number' = col_character(),
+      'GD0 weight' = col_double(),
+      'GD18 weight' = col_double(),
+      'GD of Birth' = col_integer(),
+      'Pups born alive' = col_integer(),
+      'Pups dead @ birth' = col_integer(),
+      'Pups survive' = col_integer()
+      )
+    )
 
+```
+
+
+read in an excel file.
+
+```{r}
+mlb_df = read_excel("./data/mlb11.xlsx", range = "A1:F7")
+```
+
+read in a SAS file
+```{r}
+pulse_df = read_sas("./data/public_pulse_data.sas7bdat")
 ```
 
