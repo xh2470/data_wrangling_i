@@ -16,7 +16,7 @@ pulse_df =
   janitor::clean_names()
 ```
 
-Let's try to pivot
+Let's try to pivot_longer
 
 ```{r}
 pulse_tidy = 
@@ -33,7 +33,7 @@ pulse_tidy =
   )
 ```
 
-## pivot_wider
+## `pivot_wider`
 
 ```{r}
 analysis_df = 
@@ -50,4 +50,64 @@ analysis_df %>%
   ) %>% 
   knitr::kable()
 ```
+
+
+## bind_rows
+
+import the LotR movie word stuff
+
+```{r}
+fellowship_df = 
+  read_excel("./data/LotR_Words.xlsx", range = "B3:D6") %>% 
+  mutate(movie = "fellowship_rings")
+
+two_towers_df = 
+  read_excel("./data/LotR_Words.xlsx", range = "F3:H6") %>% 
+  mutate(movie = "two_towers")
+
+return_df = 
+  read_excel("./data/LotR_Words.xlsx", range = "J3:L6") %>% 
+  mutate(movie = "return_king")
+
+lotr_dr = 
+  bind_rows(fellowship_df, two_towers_df, return_df) %>% 
+  janitor::clean_names() %>% 
+  pivot_longer(
+    female:male,
+    names_to = "sex",
+    values_to = "words"
+  ) %>% 
+  relocate(movie)
+```
+
+## joins
+
+Look at FAS data. 
+
+```{r}
+litters_df = 
+  read_csv("data/FAS_litters.csv") %>% 
+  janitor::clean_names() %>% 
+  separate(group, into = c("dose", "day_of_tx"),3) %>% 
+  relocate(litter_number) %>% 
+  mutate(dose = str_to_lower(dose))
+
+
+pups_df = 
+  read_csv("data/FAS_pups.csv") %>% 
+  janitor::clean_names() %>% 
+  mutate(sex = recode(sex, '1' = "male", '2' = "female"))
+
+```
+
+join these up.
+
+```{r}
+fas_df = 
+  left_join(pups_df, litters_df, by = "litter_number") %>% 
+  relocate(litter_number, dose, day_of_tx)
+```
+
+never use `spread()`, always use `pivot_wider`
+never use `gather()`, always use `pivot_longer`
 
