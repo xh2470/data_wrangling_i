@@ -16,6 +16,11 @@ library(tidyverse)
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
 
+``` r
+library(readxl)
+library(haven)
+```
+
 ## Read in some data
 
 Read in the litters dataset.
@@ -165,7 +170,7 @@ Data summary
 # Arguments in read\_csv
 
 ``` r
-litters_df = 
+litters_df1 = 
   read_csv(
     "data/FAS_litters.csv",
     skip = 5, 
@@ -183,3 +188,30 @@ litters_df =
     ## 
     ## i Use `spec()` to retrieve the full column specification for this data.
     ## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
+litters_data = read_csv( "./data/FAS_litters.csv",
+    col_types = cols(
+      Group = col_character(),
+      'Litter Number' = col_character(),
+      'GD0 weight' = col_double(),
+      'GD18 weight' = col_double(),
+      'GD of Birth' = col_integer(),
+      'Pups born alive' = col_integer(),
+      'Pups dead @ birth' = col_integer(),
+      'Pups survive' = col_integer()
+      )
+    )
+```
+
+read in an excel file.
+
+``` r
+mlb_df = read_excel("./data/mlb11.xlsx", range = "A1:F7")
+```
+
+read in a SAS file
+
+``` r
+pulse_df = read_sas("./data/public_pulse_data.sas7bdat")
+```
